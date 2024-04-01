@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 50.0,
                 backgroundImage: AssetImage('images/profil.png'),
               ),
-              Text(
+              const Text(
                 'ALIFVIA FARRAS AZHARI',
                 style: TextStyle(
                   fontFamily: 'Pacifico',
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
                   // fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
+              const Text(
                 'FLUTTER DEVELOPER',
                 style: TextStyle(
                   fontFamily: 'SourceSans3',
@@ -48,9 +48,9 @@ class MyApp extends StatelessWidget {
               ),
               Card(
                   margin:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                   child: ListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.phone,
                       color: Colors.teal,
                     ),
@@ -66,9 +66,9 @@ class MyApp extends StatelessWidget {
                   )),
               Card(
                   margin:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                   child: ListTile(
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.email,
                       color: Colors.teal,
                     ),
