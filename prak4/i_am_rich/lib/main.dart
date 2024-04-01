@@ -15,7 +15,7 @@ void main() {
         backgroundColor: Colors.blueGrey,
         body: const Center(
           child: Image(
-            image: AssetImage('assets/images/diamond.png'),
+            image: AssetImage('images/diamond.png'),
           ),
         ),
       ),
