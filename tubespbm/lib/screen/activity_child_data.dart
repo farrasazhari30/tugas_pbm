@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tubespbm/screen/children_activity_data.dart';
 
 class ActivityInputPage extends StatefulWidget {
   static Map<String, dynamic> childrenData = {};
@@ -7,7 +8,7 @@ class ActivityInputPage extends StatefulWidget {
     return childrenData[childName] ?? {};
   }
 
-  const ActivityInputPage({super.key});
+  const ActivityInputPage({Key? key}) : super(key: key);
 
   @override
   _ActivityInputPageState createState() => _ActivityInputPageState();
@@ -23,20 +24,35 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
   String? lunch;
   String? snack;
   String? dinner;
+  String napTime = ''; // New field for nap time
+  String? milkAmount; // New field for milk amount
+  String? milkType; // New field for milk type
   String additionalInfo = '';
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
 
   void _saveChildData() {
-    ActivityInputPage.childrenData[childName] = {
-      'name': childName,
-      'age': childAge,
-      'temperature': childTemperature,
-      'hasMeal': hasMeal,
-      'breakfast': breakfast,
-      'lunch': lunch,
-      'snack': snack,
-      'dinner': dinner,
-      'additionalInfo': additionalInfo,
-    };
+    setState(() {
+      ActivityInputPage.childrenData[childName] = {
+        'name': childName,
+        'age': childAge,
+        'temperature': childTemperature,
+        'hasMeal': hasMeal,
+        'breakfast': breakfast,
+        'lunch': lunch,
+        'snack': snack,
+        'dinner': dinner,
+        'napTime': napTime,
+        'milkAmount': milkAmount,
+        'milkType': milkType,
+        'additionalInfo': additionalInfo,
+        'selectedDate': selectedDate,
+        'selectedTime': selectedTime,
+      };
+    });
     _showOptionsDialog();
   }
 
@@ -51,7 +67,14 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
       lunch = null;
       snack = null;
       dinner = null;
+      napTime = '';
+      milkAmount = null; // Reset milkAmount field
+      milkType = null; // Reset milkType field
       additionalInfo = '';
+      selectedDate = null;
+      selectedTime = null;
+      dateController.clear();
+      timeController.clear();
     });
   }
 
@@ -71,6 +94,18 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
               },
             ),
             TextButton(
+              child: const Text('Lihat Data Anak'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChildrenActivityPage(),
+                  ),
+                );
+              },
+            ),
+            TextButton(
               child: const Text('Keluar'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -83,18 +118,46 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dateController.text = '${picked.day}/${picked.month}/${picked.year}';
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime ?? TimeOfDay.now(),
+    );
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+        timeController.text = '${picked.hour}:${picked.minute}';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Input aktivitas Anak'),
+        title: const Text('Input Aktivitas Anak'),
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Color.fromARGB(255, 167, 169, 170),
+      backgroundColor: const Color.fromARGB(255, 167, 169, 170),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bg_activity_input.jpg'),
+            image: AssetImage('images/bg2.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -106,6 +169,58 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Pilih Tanggal dan Jam Kedatangan',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: dateController,
+                          decoration: InputDecoration(
+                            hintText: 'Tanggal',
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.calendar_today),
+                              onPressed: () {
+                                _selectDate(context);
+                              },
+                            ),
+                          ),
+                          readOnly: true,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextFormField(
+                          controller: timeController,
+                          decoration: InputDecoration(
+                            hintText: 'Jam',
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.access_time),
+                              onPressed: () {
+                                _selectTime(context);
+                              },
+                            ),
+                          ),
+                          readOnly: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
                   const Text(
                     'Informasi Anak',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -119,6 +234,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      suffixIcon: Icon(Icons.person),
                     ),
                     validator: (val) =>
                         val!.isEmpty ? 'Masukkan Nama Anak' : null,
@@ -170,7 +286,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Informasi Makan dan Minum',
+                    'Makan dan Minum',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
@@ -229,6 +345,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
+                            suffixIcon: Icon(Icons.fastfood),
                           ),
                           onChanged: (val) {
                             setState(() => breakfast = val);
@@ -243,6 +360,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
+                            suffixIcon: Icon(Icons.fastfood),
                           ),
                           onChanged: (val) {
                             setState(() => lunch = val);
@@ -257,6 +375,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
+                            suffixIcon: Icon(Icons.fastfood),
                           ),
                           onChanged: (val) {
                             setState(() => snack = val);
@@ -271,6 +390,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
+                            suffixIcon: Icon(Icons.fastfood),
                           ),
                           onChanged: (val) {
                             setState(() => dinner = val);
@@ -280,7 +400,127 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                     ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Informasi Aktivitas Tambahan untuk Orang Tua',
+                    'Waktu Istirahat',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Waktu Istirahat',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      suffixIcon: Icon(Icons.access_alarm),
+                    ),
+                    onChanged: (val) {
+                      setState(() => napTime = val);
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Minum Susu',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Jumlah ML',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      suffixIcon: Icon(Icons.local_drink),
+                    ),
+                    onChanged: (val) {
+                      setState(() => milkAmount = val);
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    hint: const Text('Jenis Susu'),
+                    items: [
+                      DropdownMenuItem(
+                        value: 'Asi',
+                        child: Text('Asi'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Formula',
+                        child: Text('Formula'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Susu sapi',
+                        child: Text('Susu sapi'),
+                      ),
+                    ],
+                    onChanged: (val) {
+                      setState(() => milkType = val);
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Jadwal Toilet',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Jam',
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            suffixIcon: Icon(Icons.access_alarm),
+                          ),
+                          onChanged: (val) {
+                            // Implement your logic to save toilet time
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          hint: const Text('Tipe'),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'Potty',
+                              child: Text('Potty'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Diaper',
+                              child: Text('Diaper'),
+                            ),
+                          ],
+                          onChanged: (val) {
+                            // Implement your logic to save toilet type
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Informasi untuk Orang Tua',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
@@ -292,6 +532,7 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      suffixIcon: Icon(Icons.info_outline),
                     ),
                     onChanged: (val) {
                       setState(() => additionalInfo = val);
@@ -311,12 +552,14 @@ class _ActivityInputPageState extends State<ActivityInputPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                        backgroundColor:
+                            const Color.fromARGB(255, 255, 255, 255),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: const Text('Simpan'),
+                      child: const Text('Simpan',
+                          style: TextStyle(color: Colors.black)),
                     ),
                   ),
                 ],

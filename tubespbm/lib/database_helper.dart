@@ -44,7 +44,7 @@ class DatabaseHelper {
       columns: ['id', 'name', 'description'],
       where: 'id = ?',
       whereArgs: [id],
-    );
+    );  
 
     if (maps.isNotEmpty) {
       return Item.fromMap(maps.first);

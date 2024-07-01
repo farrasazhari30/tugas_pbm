@@ -7,36 +7,30 @@ class LoginSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/bg_cover.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
+        color: Colors.blue[200], // Background color
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(
-                  Icons.child_care,
-                  size: 100,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                Image.asset(
+                  "images/baby.png",
+                  height: 200,
                 ),
                 const SizedBox(height: 20.0),
                 const Text(
-                  'Daycare APP',
+                  'DAYCARE',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 40.0),
-                _buildElevatedButton(context, 'Caregiver'),
+                _buildElevatedButton(context, 'Pengasuh'),
                 const SizedBox(height: 20.0),
-                _buildElevatedButton(context, 'Parents'),
+                _buildElevatedButton(context, 'Orang tua'),
               ],
             ),
           ),
@@ -59,7 +53,7 @@ class LoginSelectionPage extends StatelessWidget {
                 elevation: 5,
                 shadowColor: Colors.blueAccent,
                 foregroundColor: Colors.white,
-                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(

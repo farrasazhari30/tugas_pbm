@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'activity_child_data.dart';
+import 'package:tubespbm/screen/activity_child_data.dart';
 
 class ChildrenActivityPage extends StatefulWidget {
   const ChildrenActivityPage({Key? key}) : super(key: key);
@@ -38,11 +38,11 @@ class _ChildrenActivityPageState extends State<ChildrenActivityPage> {
         title: const Text('Aktivitas Anak'),
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Color.fromARGB(255, 167, 169, 170),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bg_activity_input.jpg'),
+            image: AssetImage('images/bg4.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -76,6 +76,22 @@ class _ChildrenActivityPageState extends State<ChildrenActivityPage> {
                       ),
                       const SizedBox(height: 20),
                       if (childData.isNotEmpty) ...[
+                        const Text(
+                          'Tanggal dan Jam Aktivitas:',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Tanggal: ${childData['selectedDate'] != null ? '${childData['selectedDate'].day}/${childData['selectedDate'].month}/${childData['selectedDate'].year}' : '-'}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Jam: ${childData['selectedTime'] != null ? '${childData['selectedTime'].hour}:${childData['selectedTime'].minute}' : '-'}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 20),
                         Text('Nama: ${childData['name']}',
                             style: const TextStyle(fontSize: 18)),
                         Text('Umur: ${childData['age']} Tahun',
@@ -93,6 +109,28 @@ class _ChildrenActivityPageState extends State<ChildrenActivityPage> {
                         Text('Sore: ${childData['snack'] ?? '-'}',
                             style: const TextStyle(fontSize: 18)),
                         Text('Malam: ${childData['dinner'] ?? '-'}',
+                            style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        const Text('Waktu Istirahat:',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        Text('Waktu: ${childData['napTime'] ?? '-'}',
+                            style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        const Text('Minum Susu:',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        Text('Jumlah: ${childData['milkAmount'] ?? '-'} ML',
+                            style: const TextStyle(fontSize: 18)),
+                        Text('Jenis: ${childData['milkType'] ?? '-'}',
+                            style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        const Text('Jadwal Toilet:',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                        Text('Jam: ${childData['toiletTime'] ?? '-'}',
+                            style: const TextStyle(fontSize: 18)),
+                        Text('Tipe: ${childData['toiletType'] ?? '-'}',
                             style: const TextStyle(fontSize: 18)),
                         const SizedBox(height: 20),
                         const Text('Informasi Tambahan:',

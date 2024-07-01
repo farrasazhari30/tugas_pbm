@@ -1,127 +1,97 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  String username = '';
-  String password = '';
-  late String role;
-
-  @override
   Widget build(BuildContext context) {
-    // Pastikan argumen role diterima dengan benar
-    role = ModalRoute.of(context)!.settings.arguments as String;
+    final String userType =
+        (ModalRoute.of(context)!.settings.arguments as String?) ??
+            'Pengasuh'; // Default to 'Pengasuh' if null
 
     return Scaffold(
+      appBar: AppBar(
+        title:
+            Text(userType == 'Pengasuh' ? 'Login Pengasuh' : 'Login Orang tua'),
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg_login.jpg"),
+            image: AssetImage("images/bg4.jpg"),
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      FontAwesomeIcons.baby,
-                      size: 100,
-                      color: Colors.blueAccent,
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      'DAYCARE',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Username',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon: const Icon(Icons.person,
-                            color: Color.fromRGBO(4, 197, 231, 1)),
-                      ),
-                      validator: (val) => val!.isEmpty ? 'Masukkan Nama' : null,
-                      onChanged: (val) {
-                        setState(() => username = val);
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon: const Icon(Icons.lock,
-                            color: Color.fromRGBO(4, 197, 231, 1)),
-                      ),
-                      obscureText: true,
-                      validator: (val) => val!.length < 6
-                          ? 'Masukkan Password lebih dari 6 karakter'
-                          : null,
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: const Color.fromARGB(4, 197, 231, 1),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text('Sign In'),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print('Navigasi ke halaman sesuai peran: $role');
-                          Navigator.pushReplacementNamed(
-                              context,
-                              role == 'Caregiver'
-                                  ? '/home_caregiver'
-                                  : '/home_parent');
-                        }
-                      },
-                    ),
-                    TextButton(
-                      child: const Text(
-                        'Daftar',
-                        style: TextStyle(color: Color.fromARGB(4, 197, 231, 1)),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/register');
-                      },
-                    ),
-                  ],
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Login',
+                  style: TextStyle(fontSize: 20),
                 ),
-              ),
+                const SizedBox(height: 20),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Username',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // Logika autentikasi berdasarkan userType
+                    if (userType == 'Pengasuh') {
+                      // Logika autentikasi untuk pengasuh
+                      // Jika autentikasi berhasil, arahkan ke halaman home caregiver
+                      Navigator.pushReplacementNamed(
+                          context, '/home_caregiver');
+                    } else if (userType == 'Orang tua') {
+                      // Logika autentikasi untuk orang tua
+                      // Jika autentikasi berhasil, arahkan ke halaman home parent
+                      Navigator.pushReplacementNamed(context, '/home_parent');
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: const Text(
+                    'Registration',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
