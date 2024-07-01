@@ -9,5 +9,31 @@ Penggunaan sistem informasi di daycare tidak hanya mengoptimalkan operasional, t
 video demo aplikasi melalui gdrive https://drive.google.com/file/d/1X3ueWqJWIPhpT29L_F8BtykYp7C2H5ot/view?usp=sharing 
 
 halaman utama pada aplikasi
+
 ![image](https://github.com/farrasazhari30/tugas_pbm/assets/162088486/dc05241d-7810-4bd2-95ed-803db0715f50)
+
+halaman registrasi: registration_page.dart, yang menampilkan halaman pendaftaran di aplikasi daycare ini untuk orangtua dan pengasuh.
+
+![image](https://github.com/farrasazhari30/tugas_pbm/assets/162088486/282a3f23-5be0-4797-ac3d-f6fd99e2d8fe)
+
+halaman login: login_page.dart, mendefinisikan widget loginpage atau yang menampilkan halaman pendaftaran (bagi yang sudah melakukan registration) di aplikasi daycare ini untuk orangtua dan pengasuh.
+
+login pengasuh
+![image](https://github.com/farrasazhari30/tugas_pbm/assets/162088486/e58c1064-281c-476b-b1dd-1d107bcc760d)
+
+login orangtua
+![image](https://github.com/farrasazhari30/tugas_pbm/assets/162088486/6236edf8-8982-4867-8f52-effb4d60836b)
+
+halaman input activity: menyediakan form untuk menambah atau mengedit aktivitas anak sehari-hari untuk pengasuh.
+
+![image](https://github.com/farrasazhari30/tugas_pbm/assets/162088486/1eb4fcba-3e10-4680-be46-2a824c7db15f)
+
+halaman tampilan activity anak yang dapat dilihat ketika orangtua melakukan login 
+
+![image](https://github.com/farrasazhari30/tugas_pbm/assets/162088486/15a1224a-2753-4ebc-877a-c6c9b55f6651)
+
+
+
+
+
 
